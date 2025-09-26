@@ -151,6 +151,11 @@ public class TelaLogin extends javax.swing.JFrame {
                 jBtnLoginActionPerformed(evt);
             }
         });
+        jBtnLogin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jBtnLoginKeyPressed(evt);
+            }
+        });
 
         jLblStatus.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/dberror.png"))); // NOI18N
 
@@ -222,6 +227,27 @@ public class TelaLogin extends javax.swing.JFrame {
             
         }
     }//GEN-LAST:event_jBtnLoginActionPerformed
+
+    private void jBtnLoginKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jBtnLoginKeyPressed
+        try {
+            String usario, senha;
+           
+            usario = jTxtUsario.getText();
+            senha = jTxtSenha.getText();
+            
+            UsuarioDAO  dao = new UsuarioDAO();
+            
+            
+            dao.efetuaLogin(usario, senha);
+            
+            
+            this.dispose();
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "erro");
+            
+        }
+    }//GEN-LAST:event_jBtnLoginKeyPressed
 
     /**
      * @param args the command line arguments
