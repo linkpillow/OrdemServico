@@ -24,10 +24,12 @@
 package view;
 
 
+import controller.UsuarioDAO;
 import java.sql.*;
 import jdbc.ModuloConexao;
 import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
+import model.Usuario;
 
 /**
  * Tela de gestão de usuários
@@ -116,7 +118,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
 
         cboUsuPerfil.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "admin", "user" }));
 
-        btnUsuUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/infox/icones/update.png"))); // NOI18N
+        btnUsuUpdate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/update.png"))); // NOI18N
         btnUsuUpdate.setToolTipText("Alterar");
         btnUsuUpdate.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnUsuUpdate.setEnabled(false);
@@ -127,10 +129,9 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
             }
         });
 
-        btnUsuCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/infox/icones/create.png"))); // NOI18N
+        btnUsuCreate.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/create.png"))); // NOI18N
         btnUsuCreate.setToolTipText("Adicionar");
         btnUsuCreate.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        btnUsuCreate.setEnabled(false);
         btnUsuCreate.setPreferredSize(new java.awt.Dimension(80, 80));
         btnUsuCreate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,7 +139,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
             }
         });
 
-        btnUsuDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/infox/icones/delete.png"))); // NOI18N
+        btnUsuDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icones/delete.png"))); // NOI18N
         btnUsuDelete.setToolTipText("Remover");
         btnUsuDelete.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnUsuDelete.setEnabled(false);
@@ -254,7 +255,19 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUsuCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuCreateActionPerformed
-        
+        Usuario obj = new Usuario();
+        //obj.setIdUser(Integer.parseInt(txtUsuId.getText()));
+        obj.setUsuario(txtUsuNome.getText());
+        obj.setFone(txtUsuFone.getText());
+        obj.setLogin(txtUsuLogin.getText());
+        obj.setSenha(txtUsuSenha.getText());
+        obj.setPerfil(cboUsuPerfil.getSelectedItem().toString());
+        if((txtUsuId.getText()).isEmpty() || (txtUsuNome.getText().isEmpty()) || (txtUsuLogin.getText().isEmpty()) || cboUsuPerfil.getSelectedItem().equals(" ")){
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!!");
+        } else{
+            UsuarioDAO dao = new UsuarioDAO();
+            dao.adicionarUsuario(obj);
+        }
     }//GEN-LAST:event_btnUsuCreateActionPerformed
 
     private void btnUsuUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuUpdateActionPerformed

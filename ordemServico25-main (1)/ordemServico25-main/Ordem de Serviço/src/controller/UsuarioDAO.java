@@ -4,12 +4,14 @@
  */
 package controller;
 
-import java.sql.Connection;
+import java.awt.HeadlessException;
+import java.sql.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import jdbc.ModuloConexao;
+import model.Usuario;
 import view.TelaLogin;
 import view.TelaPrincipal;
 
@@ -62,5 +64,32 @@ public class UsuarioDAO {
 
     }
     
-    
+    public void adicionarUsuario(Usuario obj){
+        try{
+            String sql = "insert into tbusuarios(iduser,usuario,fone,login,senha,perfil) values(?,?,?,?,?,?)";
+            con = ModuloConexao.conectar();
+            PreparedStatement stmt = con.prepareStatement(sql);
+            stmt.setInt(1, obj.getIdUser());
+            stmt.setString(2, obj.getUsuario());
+            stmt.setString(3, obj.getFone());
+            stmt.setString(4, obj.getLogin());
+            stmt.setString(5, obj.getSenha());
+            stmt.setString(6, obj.getPerfil());
+            
+            stmt.execute();
+            stmt.close();
+            JOptionPane.showMessageDialog(null, "Usuário cadastrado com sucesso!");
+        } catch (SQLIntegrityConstraintViolationException e1){
+            JOptionPane.showMessageDialog(null, "Login em uso.\nEscolha outro login.");
+        } catch (HeadlessException | SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        } finally {
+            try{
+                con.close();
+            } catch(SQLException ex){
+                JOptionPane.showMessageDialog(null, ex);
+                
+            }
+        }
+    }
 }
