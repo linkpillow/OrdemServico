@@ -138,11 +138,52 @@ public class UsuarioDAO {
             stmt.setInt(6, idUser);
             
             stmt.execute();
-            ResultSet rs = stmt.executeQuery();
+            
             stmt.close();
             JOptionPane.showMessageDialog(null, "Usuário alterado com sucesso!");  
-        } catch(Exception e){
+        } catch (HeadlessException | SQLException e){
             JOptionPane.showMessageDialog(null, e);
+        } finally {
+            try{
+                con.close();
+            } catch(SQLException ex){
+                JOptionPane.showMessageDialog(null, ex);
+            }
         }
+    }
+    public Usuario deletarUsuario(int idUser){
+        try{
+            //sql
+            String sql = "DELETE FROM tbusuarios WHERE iduser = ?";
+            
+            con = ModuloConexao.conectar();
+            PreparedStatement stmt = con.prepareStatement(sql);
+            
+            stmt.setInt(1, idUser);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            stmt.execute();
+            stmt.close();
+            JOptionPane.showMessageDialog(null, "Usuário deletado com sucesso!");
+            Usuario usuario = new Usuario();
+            usuario.setIdUser(rs.getInt("idUser"));
+            usuario.setUsuario(rs.getString("usuario"));
+            usuario.setFone(rs.getString("fone"));
+            usuario.setLogin(rs.getString("login"));
+            usuario.setSenha(rs.getString("senha"));
+            usuario.setPerfil(rs.getString("perfil"));
+                
+            return usuario;
+        } catch(HeadlessException | SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        } finally {
+            try{
+                con.close();
+            } catch(SQLException ex){
+                JOptionPane.showMessageDialog(null, ex);
+            }
+        }
+        return null;
     }
 }

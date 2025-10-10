@@ -171,7 +171,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(44, 44, 44)
+                .addContainerGap(58, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel5)
                     .addComponent(jLabel3)
@@ -210,7 +210,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(jChkSenha, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(74, Short.MAX_VALUE))
+                .addContainerGap(56, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,7 +251,7 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
                 .addGap(46, 46, 46))
         );
 
-        setBounds(0, 0, 640, 480);
+        setBounds(0, 0, 636, 480);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUsuCreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuCreateActionPerformed
@@ -287,7 +287,19 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
     }//GEN-LAST:event_btnUsuUpdateActionPerformed
 
     private void btnUsuDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuDeleteActionPerformed
-        
+        Usuario obj = new Usuario();
+        obj.setIdUser(Integer.parseInt(txtUsuId.getText()));
+        obj.setUsuario(txtUsuNome.getText());
+        obj.setFone(txtUsuFone.getText());
+        obj.setLogin(txtUsuLogin.getText());
+        obj.setSenha(txtUsuSenha.getText());
+        obj.setPerfil(cboUsuPerfil.getSelectedItem().toString());
+        if((txtUsuId.getText()).isEmpty() || (txtUsuNome.getText().isEmpty()) || (txtUsuLogin.getText().isEmpty()) || cboUsuPerfil.getSelectedItem().equals(" ")){
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!!");
+        } else{
+            UsuarioDAO dao = new UsuarioDAO();
+            dao.deletarUsuario(obj.getIdUser());
+        }
     }//GEN-LAST:event_btnUsuDeleteActionPerformed
 
     private void btnUsuReadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuReadActionPerformed

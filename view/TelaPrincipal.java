@@ -47,6 +47,8 @@ public class TelaPrincipal extends javax.swing.JFrame {
         jMnRelServico = new javax.swing.JMenuItem();
         jMnSobre = new javax.swing.JMenu();
         jMnSair = new javax.swing.JMenu();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Sistema de Gestão de Ordem de Serviço");
@@ -136,6 +138,20 @@ public class TelaPrincipal extends javax.swing.JFrame {
         });
         jMenuBar1.add(jMnSair);
 
+        jMenu1.setMnemonic('g');
+        jMenu1.setText("Configuração");
+
+        jMenuItem1.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_T, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        jMenuItem1.setText("Trocar Usuário");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
         setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -214,6 +230,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
         tela.setVisible(true);
     }//GEN-LAST:event_jMnSobreMouseClicked
 
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        
+        TelaLogin tela = new TelaLogin();
+        tela.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -258,7 +281,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLblData;
     public static javax.swing.JLabel jLblUsuario;
+    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenu jMnCadastro;
     private javax.swing.JMenuItem jMnItmCliente;
     private javax.swing.JMenuItem jMnItmServico;
