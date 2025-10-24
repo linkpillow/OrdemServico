@@ -9,6 +9,7 @@ import java.sql.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashSet;
 import javax.swing.JOptionPane;
 import jdbc.ModuloConexao;
 import model.Usuario;
@@ -47,9 +48,9 @@ public class UsuarioDAO {
                 TelaPrincipal tela = new TelaPrincipal();
                 tela.setVisible(true);
                 if(perfil.equals("admin")){
-                    tela.JMnItmUsuario.setEnabled(true);
-                    tela.jMnRelatorio.setEnabled(true);
-                    tela.jLblUsuario.setText(rs.getString(2));
+                    TelaPrincipal.JMnItmUsuario.setEnabled(true);
+                    TelaPrincipal.jMnRelatorio.setEnabled(true);
+                    TelaPrincipal.jLblUsuario.setText(rs.getString(2));
                 }
                 
             } else {
@@ -91,5 +92,98 @@ public class UsuarioDAO {
                 
             }
         }
+    }
+    public Usuario buscarUsuario(int idUser){
+        try{
+            String sql = "select * from tbusuarios WHERE iduser = ?";
+            
+            con = ModuloConexao.conectar();
+            PreparedStatement stmt =  con.prepareStatement(sql);
+            stmt.setInt(1, idUser);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            
+            if(rs.next()){
+                Usuario usuario = new Usuario();
+                usuario.setIdUser(rs.getInt("idUser"));
+                usuario.setUsuario(rs.getString("usuario"));
+                usuario.setFone(rs.getString("fone"));
+                usuario.setLogin(rs.getString("login"));
+                usuario.setSenha(rs.getString("senha"));
+                usuario.setPerfil(rs.getString("perfil"));
+                
+                return usuario;
+            }else{
+                JOptionPane.showMessageDialog(null, "Usuário não encontrado!!");
+            }
+            stmt.close();
+        }
+        catch(Exception e){
+            JOptionPane.showMessageDialog(null, e);
+        }
+        return null;
+    }
+    public void alterarUsuario(int idUser, Usuario obj){
+        try{
+            String sql = "UPDATE tbusuarios SET usuario = ?, fone = ?, login = ?, senha = md5(?), perfil = ? WHERE iduser = ?;";
+            con = ModuloConexao.conectar();
+            PreparedStatement stmt = con.prepareStatement(sql);
+            
+            stmt.setString(1, obj.getUsuario());
+            stmt.setString(2, obj.getFone());
+            stmt.setString(3, obj.getLogin());
+            stmt.setString(4, obj.getSenha());
+            stmt.setString(5, obj.getPerfil());
+            stmt.setInt(6, idUser);
+            
+            stmt.execute();
+            
+            stmt.close();
+            JOptionPane.showMessageDialog(null, "Usuário alterado com sucesso!");  
+        } catch (HeadlessException | SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        } finally {
+            try{
+                con.close();
+            } catch(SQLException ex){
+                JOptionPane.showMessageDialog(null, ex);
+            }
+        }
+    }
+    public Usuario deletarUsuario(int idUser){
+        try{
+            //sql
+            String sql = "DELETE FROM tbusuarios WHERE iduser = ?";
+            
+            con = ModuloConexao.conectar();
+            PreparedStatement stmt = con.prepareStatement(sql);
+            
+            stmt.setInt(1, idUser);
+            
+            ResultSet rs = stmt.executeQuery();
+            
+            stmt.execute();
+            stmt.close();
+            JOptionPane.showMessageDialog(null, "Usuário deletado com sucesso!");
+            Usuario usuario = new Usuario();
+            usuario.setIdUser(rs.getInt("idUser"));
+            usuario.setUsuario(rs.getString("usuario"));
+            usuario.setFone(rs.getString("fone"));
+            usuario.setLogin(rs.getString("login"));
+            usuario.setSenha(rs.getString("senha"));
+            usuario.setPerfil(rs.getString("perfil"));
+                
+            return usuario;
+        } catch(HeadlessException | SQLException e){
+            JOptionPane.showMessageDialog(null, e);
+        } finally {
+            try{
+                con.close();
+            } catch(SQLException ex){
+                JOptionPane.showMessageDialog(null, ex);
+            }
+        }
+        return null;
     }
 }
