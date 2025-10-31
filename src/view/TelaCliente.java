@@ -299,22 +299,6 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         setBounds(0, 0, 640, 480);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        Cliente obj = new Cliente();
-        obj.setId(Integer.parseInt(txtCliId.getText()));
-        obj.setNome(txtCliNome.getText());
-        obj.setFone(txtCliFone.getText());
-        obj.setEndereco(txtCliEndereco.getText());
-        obj.setEmail(txtCliEmail.getText());
-        
-        if((txtCliId.getText()).isEmpty() || (txtCliNome.getText().isEmpty()) || (txtCliFone.getText().isEmpty()) || (txtCliEndereco.getText().isEmpty()) || (txtCliEmail.getText().isEmpty())){
-            JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!!");
-        } else{
-            ClienteDAO dao = new ClienteDAO();
-            dao.adicionarCliente(obj);
-        }
-    }//GEN-LAST:event_btnAdicionarActionPerformed
-
     private void txtCliPesquisarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCliPesquisarKeyReleased
         //nada ainda
     }//GEN-LAST:event_txtCliPesquisarKeyReleased
@@ -336,6 +320,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         } else{
             ClienteDAO dao = new ClienteDAO();
             dao.alterarCliente(obj);
+            listar();
         }
     }//GEN-LAST:event_btnAlterarActionPerformed
 
@@ -352,6 +337,7 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         } else{
             ClienteDAO dao = new ClienteDAO();
             dao.deletarCliente(obj.getId());
+            listar();
         }
     }//GEN-LAST:event_btnRemoverActionPerformed
 
@@ -366,6 +352,22 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     private void formInternalFrameActivated(javax.swing.event.InternalFrameEvent evt) {//GEN-FIRST:event_formInternalFrameActivated
         listar();
     }//GEN-LAST:event_formInternalFrameActivated
+
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
+        Cliente obj = new Cliente();
+        obj.setNome(txtCliNome.getText());
+        obj.setFone(txtCliFone.getText());
+        obj.setEmail(txtCliEmail.getText());
+        obj.setEndereco(txtCliEndereco.getText());
+        
+        if((txtCliNome.getText().isEmpty()) || (txtCliFone.getText().isEmpty()) || (txtCliEndereco.getText().isEmpty()) || (txtCliEmail.getText().isEmpty())){
+            JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios!!");
+        } else{
+            ClienteDAO dao = new ClienteDAO();
+            dao.adicionarCliente(obj);
+            listar();
+        }
+    }//GEN-LAST:event_btnAdicionarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

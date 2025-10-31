@@ -29,20 +29,17 @@ public class ClienteDAO {
     
     public void adicionarCliente(Cliente obj){
         try{
-            String sql = "insert into tbclientes(idcli, nomecli, endcli, fonecli, emailcli) values(?,?,?,?,?)";
+            String sql = "insert into tbclientes(nomecli, endcli, fonecli, emailcli) values(?,?,?,?)";
             con = ModuloConexao.conectar();
             PreparedStatement stmt = con.prepareStatement(sql);
-            stmt.setInt(1, obj.getId());
-            stmt.setString(2, obj.getNome());
-            stmt.setString(3, obj.getEndereco());
-            stmt.setString(4, obj.getFone());
-            stmt.setString(5, obj.getEmail());
+            stmt.setString(1, obj.getNome());
+            stmt.setString(2, obj.getEndereco());
+            stmt.setString(3, obj.getFone());
+            stmt.setString(4, obj.getEmail());
             
             stmt.execute();
             stmt.close();
             JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!");
-        } catch (SQLIntegrityConstraintViolationException e1){
-            JOptionPane.showMessageDialog(null, "Nome em uso.\nEscolha outro nome.");
         } catch (HeadlessException | SQLException e){
             JOptionPane.showMessageDialog(null, e);
         } finally {
