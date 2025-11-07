@@ -299,6 +299,12 @@ public class TelaUsuario extends javax.swing.JInternalFrame {
         } else{
             UsuarioDAO dao = new UsuarioDAO();
             dao.deletarUsuario(obj.getIdUser());
+            
+            txtUsuId.setText(null);
+            txtUsuNome.setText(null);
+            txtUsuLogin.setText(null);
+            txtUsuSenha.setText(null);
+            txtUsuFone.setText(null);
         }
     }//GEN-LAST:event_btnUsuDeleteActionPerformed
 

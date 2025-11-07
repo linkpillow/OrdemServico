@@ -34,7 +34,7 @@ public class UsuarioDAO {
         try {
 
             //1 passo - SQL
-            String sql = "select * from tbusuarios where usuario = ? and senha = ?";
+            String sql = "select * from tbusuarios where login = ? and senha = md5(?)";
             PreparedStatement stmt;
             stmt = con.prepareStatement(sql);
             stmt.setString(1, email);
@@ -67,7 +67,7 @@ public class UsuarioDAO {
     
     public void adicionarUsuario(Usuario obj){
         try{
-            String sql = "insert into tbusuarios(iduser,usuario,fone,login,senha,perfil) values(?,?,?,?,?,?)";
+            String sql = "insert into tbusuarios(iduser,usuario,fone,login,senha,perfil) values(?,?,?,?,md5(?),?)";
             con = ModuloConexao.conectar();
             PreparedStatement stmt = con.prepareStatement(sql);
             stmt.setInt(1, obj.getIdUser());
@@ -126,7 +126,7 @@ public class UsuarioDAO {
     }
     public void alterarUsuario(int idUser, Usuario obj){
         try{
-            String sql = "UPDATE tbusuarios SET usuario = ?, fone = ?, login = ?, senha = ?, perfil = ? WHERE iduser = ?;";
+            String sql = "UPDATE tbusuarios SET usuario = ?, fone = ?, login = ?, senha = md5(?), perfil = ? WHERE iduser = ?;";
             con = ModuloConexao.conectar();
             PreparedStatement stmt = con.prepareStatement(sql);
             
@@ -151,7 +151,7 @@ public class UsuarioDAO {
             }
         }
     }
-    public Usuario deletarUsuario(int idUser){
+    public void deletarUsuario(int idUser){
         try{
             //sql
             String sql = "DELETE FROM tbusuarios WHERE iduser = ?";
@@ -161,20 +161,9 @@ public class UsuarioDAO {
             
             stmt.setInt(1, idUser);
             
-            ResultSet rs = stmt.executeQuery();
-            
             stmt.execute();
             stmt.close();
             JOptionPane.showMessageDialog(null, "Usuário deletado com sucesso!");
-            Usuario usuario = new Usuario();
-            usuario.setIdUser(rs.getInt("idUser"));
-            usuario.setUsuario(rs.getString("usuario"));
-            usuario.setFone(rs.getString("fone"));
-            usuario.setLogin(rs.getString("login"));
-            usuario.setSenha(rs.getString("senha"));
-            usuario.setPerfil(rs.getString("perfil"));
-                
-            return usuario;
         } catch(HeadlessException | SQLException e){
             JOptionPane.showMessageDialog(null, e);
         } finally {
@@ -184,6 +173,5 @@ public class UsuarioDAO {
                 JOptionPane.showMessageDialog(null, ex);
             }
         }
-        return null;
     }
 }
